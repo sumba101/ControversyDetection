@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
 
-  "name": "Hello World Demo",
-  "description": "A hello world extension!",
+  "name": "Controversy Detector",
+  "description": "Detects Controversial tweets from given page",
   "version": "1.0",
   "icons": {
     "128": "icon128.png",
@@ -15,14 +15,12 @@
     "default_popup": "popup.html"
   },
 
-  "background": {
-    "scripts": ["eventPage.js"],
-    "persistent": false
-  },
+  "content_security_policy": "script-src 'self' https://ajax.googleapis.com https://maxcdn.bootstrapcdn.com https://cdnjs.cloudflare.com ; object-src 'self';" ,
 
   "permissions": [
           "storage",
+          "tabs",
           "notifications",
           "contextMenus"
-        ],
+        ]
 }

@@ -1,39 +1,18 @@
-$(function(){
 
-    chrome.storage.sync.get(['total','limit'],function(budget){
-        $('#total').text(budget.total);
-        $('#limit').text(budget.limit);
-    });
-
-    $('#spendAmount').click(function(){
-        chrome.storage.sync.get(['total', 'limit'],function(budget){
-            var newTotal = 0;
-            if (budget.total){
-                newTotal += parseInt(budget.total);
-            }
-
-            var amount = $('#amount').val();
-            if (amount){
-                newTotal += parseInt(amount);
-            }
-
-            chrome.storage.sync.set({'total': newTotal}, function(){               
-                if (amount && newTotal >= budget.limit){
-                    var notifOptions = {
-                        type: "basic",
-                        iconUrl: "icon48.png",
-                        title: "Limit reached!",
-                        message: "Uh oh, look's like you've reached your alloted limit."
-                };
-                chrome.notifications.create('limitNotif', notifOptions);
-
-            }
-            });
-            $('#total').text(newTotal);
-            $('#amount').val('');
-
-           
-
-        });
-    });
+document.addEventListener('DOMContentLoaded', function() {
+    var tempButton=document.getElementById("trigger");
+    tempButton.addEventListener("click",executeDetection);
 });
+
+function executeDetection(){
+    var temp=document.getElementById("trigger");
+    if(temp.innerText!=='Loading...'){
+        temp.innerHTML="<span class=\"spinner-border spinner-border-sm\"></span> \n  Loading...";
+        chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+            let url = tabs[0].url;
+            console.log(url);
+        });
+// Once code is done with an answer, the below code must be triggered for reset
+        // temp.innerHTML="  <span></span>\n  Analyse";
+    }
+}
