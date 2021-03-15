@@ -7,7 +7,7 @@ import json
 import pandas as pd
 import pickle
 import time
-BEARER = 'AAAAAAAAAAAAAAAAAAAAALo6NAEAAAAAP%2BhqPpvJq2FY5S2%2Bs28OwLyh7CE%3Dr1K8imd2QZvtIKFRICXmHUQsC1WcRBkDiVXExVJFjNZYpJBx8L'
+BEARER = 'BEARER_TOK' # Bearer token obtained from twitter developer account used to authorise requests. Redacted as the repo might have to be made public, ask me personally if you need to scrape.
 
 def create_headers(bearer_token):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
