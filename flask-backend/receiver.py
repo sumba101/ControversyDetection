@@ -1,15 +1,12 @@
-from flask import Flask 
-from flask_restful import Resource, Api
+import uvicorn
+from fastapi import FastAPI, Request
 from scraper import driverFunction
-app=Flask(__name__)
-api=Api(app)
+from fastapi.responses import HTMLResponse
 
-class Contro(Resource):
-	def get(self,url):
-		# Here url will have the twitter url, utilise this for the rest of the code
-		return {'result':driverFunction(url)}
 
-api.add_resource(Contro,'/<string:url>')
+app = FastAPI(title="Contro", version="0.0.1", docs_url="/api")
 
-if __name__=='__main__':
-	app.run(debug=True)
+@app.get("/{url}")
+def index(url: str, request: Request):
+    temp=driverFunction(url)
+    return {"data":temp}
