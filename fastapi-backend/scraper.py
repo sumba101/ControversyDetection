@@ -48,6 +48,16 @@ def createReplyUrl(tid, uid):
     # print(url)
 	return url
 
+def createUserUrl(uname):
+    usernames = f'usernames={uname}'
+    url = f'https://api.twitter.com/2/users/by?{usernames}'
+    return url
+
+def createTimelineUrl(uid):
+	tweet_fields = "tweet.fields=author_id,conversation_id"
+	url = f'https://api.twitter.com/2/users/{uid}/tweets?max_results=30&{tweet_fields}'
+	return url
+
 # function to parse JSON response received from Twitter API
 def parseResponse(response):
 	data = []
@@ -62,7 +72,7 @@ def parseResponse(response):
 		return data
 	except KeyError:
 		return data
-
+ 
 # main driver code
 def driverFunction(url):
 # url : Url of the twitter page
@@ -73,13 +83,15 @@ def driverFunction(url):
 	
 	string = url.split('/')
 	if len(string) == 1:
-		output = processProfile(url)
+		roots, replies = processProfile(url)
 	else:
 		print(string[-1])
-		root, replies = processStatus(string[-1])
+		roots, replies = processStatus(string[-1])
 	
-	# print(root)
-	# print(replies.head())
+	print(len(roots), len(replies))
+
+	print(roots)
+	print(replies.tail())
 	return True
 
 def processStatus(tid):
@@ -108,14 +120,42 @@ def processStatus(tid):
 
 	return tweets, replies
 
+def getUserId(name):
+    userUrl = createUserUrl(name)
+    response = connectToEndpoint(userUrl, headers)
+    try:
+	    uid = response['data'][0]['id']
+	    return uid
+    except KeyError:
+	    return -1
+
 def processProfile(name):
 
+	user_id = getUserId(name)
+	if user_id == -1:
+		print('Error: User not found')
+		return -1
 
+	timelineUrl = createTimelineUrl(user_id)
+	response = connectToEndpoint(timelineUrl, headers)
 
-	return True
+	tweets = parseResponse(response)
+
+	rootTweets = pd.DataFrame([], columns = ['tweet_id', 'conversation_id', 'author_id', 'text']) 
+	replies = pd.DataFrame([], columns = ['tweet_id', 'conversation_id', 'author_id', 'text']) 
+
+	for tweet in tweets:
+		root, reply = processStatus(tweet[0])
+		rootTweets = rootTweets.append(root)
+		replies = replies.append(reply)
+
+	return rootTweets, replies
 
 
 # if __name__ == '__main__':
-# 	url = 'elonmusk/status/1376901399867441156'
+# 	# url = 'HouseOfFakts/status/1377117067342573575'
 
-# 	driverFunction(url)
+# 	# driverFunction(url)
+# 	uname = 'barackobama'
+# 	# processProfile(uname)
+# 	driverFunction(uname)
