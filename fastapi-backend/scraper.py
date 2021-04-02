@@ -7,6 +7,6 @@ def driverFunction(url):
 	return output
 
 def processTweet(url):
-	response = {"Every single American has a right to clean drinking water. It’s just plain wrong that in the United States of America today, millions of children still receive their water through lead service pipes. It’s long past time we fix that.":True}
+	response = {"#WestBengalPolls | \"She [Mamata] alleges that polling agent was ousted from one booth. But said nothing when her people pelted stones on media and injured one. Her political ground is slipping away. What she did is illegal\": @SuvenduWB, BJP candidate from Nandigram (reports ANI)":" True"}
 
 	return response
