@@ -94,6 +94,9 @@ def driverFunction(url):
 
 	print(roots)
 	print(replies.tail())
+
+	# Please check receiver.py to see sample returned values
+
 	return True
 
 def processStatus(tid):

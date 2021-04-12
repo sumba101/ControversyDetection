@@ -30,6 +30,13 @@ function executeDetection(){
                 .then(r=>r.text())
                 .then(res=>{
                     data=JSON.parse(res)["data"]
+
+                    percent = JSON.parse(res)["percentage"]
+                    if(percent!=null){
+                    var per = document.getElementById("percentage")
+                    per.innerHTML="Controversy :-"+ percent + "%"
+                    }
+
                     var table = document.getElementById("results")
                     var row = table.insertRow(0)
                     row.insertCell(0).innerHTML="Tweet text";
@@ -37,14 +44,19 @@ function executeDetection(){
                     
                     for(const [tweetText,contro] of Object.entries(data)){
                         var row = table.insertRow(-1)
+
+                        if(contro == true){
+                        	temporary = "<span style ='background-color:red;'>"+contro+"</style>"
+                        }else{
+                        	temporary = "<span style ='background-color:green;'>"+contro+"</style>"
+                        }
                         row.insertCell(0).innerHTML=tweetText;
-                        row.insertCell(1).innerHTML=contro;
+                        row.insertCell(1).innerHTML=temporary;
                     
                         }
                     })
             }
         });
-// Once code is done with an answer, the below code must be triggered for reset
     }
     temp.innerHTML="  <span></span>\n  Analyse";
     
