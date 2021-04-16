@@ -1,0 +1,1 @@
+This folder contains the notebooks that were used to build the final models. In the notebook, transformer-cl, there is a dictionary params that controls the parameters used in the notebook. Toggle the  value of 'pers' and 'sent' to experiment with or without using perspective and sentiment values.
