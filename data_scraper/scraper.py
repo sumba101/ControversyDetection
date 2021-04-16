@@ -130,7 +130,7 @@ def get_topic_data(topic, is_cont, num, endtime):
 
 
 # %%
-topics = []
+topics = ["",""]
 # topics is a list of strings. it can be  a hashtag (like #BengalElection) or it can be  just a string about an event (like 'Bengal Election' or 'Dr. Seuss' or 'Trump')
 # if topic is a #tag, use "%23" instead of '#' i.e. '%23BengalElections' and not '#BengalElection'
 data = []
