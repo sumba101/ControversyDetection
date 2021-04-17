@@ -82,15 +82,13 @@ def fetch_score(text, comments):
     # print('request sent')
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
-    res = requests.post("https://14045541c589.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
-    # print(res.json())
+    res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
+    print(res.json())
     return res.json()['contro']
 
 # main driver code
 def driverFunction(url):
 # url : Url of the twitter page
-# THE OBJECT RETURED BY THIS MUST BE DICTIONARY OF TWEET TEXT TO CONTROVERSIALITY BOOL(True/False)
-# Example: 	response = {"#WestBengalPolls | \"She [Mamata] alleges that polling agent was ousted from one booth. But said nothing when her people pelted stones on media and injured one. Her political ground is slipping away. What she did is illegal\": @SuvenduWB, BJP candidate from Nandigram (reports ANI)":" True"}
 
 	# url= "https://twitter.com/" + url
 	# output = processTweet(url)
