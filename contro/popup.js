@@ -11,7 +11,7 @@ function executeDetection(){
         chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
             let url = tabs[0].url;
             var tempo=url.split("//")[1].split('/')
-            console.log(tempo[0])
+
             if (tempo[0]==='twitter.com') {
                 tempo.shift();
                 url=tempo.join('/');
@@ -19,7 +19,7 @@ function executeDetection(){
                 let link='http://localhost:8000/';
                 
                 const params = {"url":url};
-                console.log(params)
+
                 fetch(link, {
                     method: 'POST',
                     headers: {
@@ -53,11 +53,12 @@ function executeDetection(){
                         row.insertCell(0).innerHTML=tweetText;
                         row.insertCell(1).innerHTML=temporary;
                     
-                        }
+                       	}
+                        temp.innerHTML="  <span></span>\n  Analyse";
+
                     })
             }
         });
     }
-    temp.innerHTML="  <span></span>\n  Analyse";
     
 }

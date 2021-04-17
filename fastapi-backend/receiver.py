@@ -12,7 +12,7 @@ class Receive(BaseModel):
 
 @app.post("/")
 def index(receive : Receive):
-	# temp,percentage=driverFunction(receive.url)
+	temp,percentage=driverFunction(receive.url)
 	# Example values for what should be returned above
 	# percentage= None or 90
 	# temp = {"Our progress on vaccinations is ...":True,"Gun violence in this country ...":True,"This isn't complicated":False}

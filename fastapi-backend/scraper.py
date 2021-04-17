@@ -83,22 +83,22 @@ def fetch_score(text, comments):
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
     res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
-    print(res)
     return res.json()['contro']
 
 # main driver code
 def driverFunction(url):
 # url : Url of the twitter page
-# THE OBJECT RETURED BY THIS MUST BE DICTIONARY OF TWEET TEXT TO CONTROVERSIALITY BOOL(True/False)
-# Example: 	response = {"#WestBengalPolls | \"She [Mamata] alleges that polling agent was ousted from one booth. But said nothing when her people pelted stones on media and injured one. Her political ground is slipping away. What she did is illegal\": @SuvenduWB, BJP candidate from Nandigram (reports ANI)":" True"}
 
 	# url= "https://twitter.com/" + url
 	# output = processTweet(url)
 	# output = dict(sorted(output.items(), key=lambda item: item[1]))
 	
 	string = url.split('/')
+	flag = False
+
 	if len(string) == 1:
 		roots, replies = processProfile(url)
+		flag=True
 	else:
 		roots, replies = processStatus(string[-1])
 	
@@ -121,8 +121,18 @@ def driverFunction(url):
 		results[text] = bool(fetch_score(text, comments))
 		
 	# Please check receiver.py to see sample returned values
+	percentage = None
+	if flag:
+		percentage = 0
+		for i in results.values():
+			print(i)
+			if i:
+				percentage+=1
+		percentage = percentage / len(results)
+	print(results)
+	print(percentage)
 
-	return results
+	return results,percentage
 
 def processStatus(tid):
 
