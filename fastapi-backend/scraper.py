@@ -95,8 +95,11 @@ def driverFunction(url):
 	# output = dict(sorted(output.items(), key=lambda item: item[1]))
 	
 	string = url.split('/')
+	flag = False
+
 	if len(string) == 1:
 		roots, replies = processProfile(url)
+		flag=True
 	else:
 		roots, replies = processStatus(string[-1])
 	
@@ -112,8 +115,18 @@ def driverFunction(url):
 		results[text] = bool(fetch_score(text, comments))
 		
 	# Please check receiver.py to see sample returned values
+	percentage = None
+	if flag:
+		percentage = 0
+		for i in results.values():
+			print(i)
+			if i:
+				percentage+=1
+		percentage = percentage / len(results)
+	print(results)
+	print(percentage)
 
-	return results
+	return results,percentage
 
 def processStatus(tid):
 

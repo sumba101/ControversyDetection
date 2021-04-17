@@ -53,11 +53,12 @@ function executeDetection(){
                         row.insertCell(0).innerHTML=tweetText;
                         row.insertCell(1).innerHTML=temporary;
                     
-                        }
+                       	}
+                        temp.innerHTML="  <span></span>\n  Analyse";
+
                     })
             }
         });
     }
-    temp.innerHTML="  <span></span>\n  Analyse";
     
 }
