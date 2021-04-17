@@ -43,12 +43,8 @@ Note: For information about the dataframe, refer **Data Description**
 135: .
 136: .
 ```
- 
-<!-- # Anubhav pls describe all the options used for scraping here -->
-3.
-4.
-5.
-
+3. Following are the tuning parameters that individual can change on the basis of usability will . 
+ 1. ```py is:verified ``` **_line 39_** - Tag to consider only verified accounts ( usually a preferable choice as those tweets are rich with replies ) . 
 ### Data description
 
 The dataset is a single Pandas dataframe containing 11 columns:
