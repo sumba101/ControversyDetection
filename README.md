@@ -36,5 +36,5 @@ text = {
 - Click on load unpacked and navigate and select the folder `contro` found in this project codebase
 
 Now the browser extension set up is done
-
+- Execute command `pip3 install uvicorn fastapi`
 - `cd fastapi-backend` and then enter the command `uvicorn receiver:app --reload` into the terminal
