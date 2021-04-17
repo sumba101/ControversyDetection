@@ -24,12 +24,13 @@ The file `scraper.py` is used for scraping tweets from twitter using Twitter API
 ```
 
 5. The scraped tweets and their replies will be available in `topicwise/<topic>_root_n_replies.pkl` and `topicwise/<topic>_root_n_replies.csv`.<br>
-The pickle file contains the root tweets and their replies loaded into a pandas dataframe. The contains the same dataframe dumped in csv format. 
+The pickle file contains the root tweets and their replies loaded into a pandas dataframe. The csv file contains the same dataframe dumped in csv format. 
 
 Note: For information about the dataframe, refer **Data Description**
 
 ### Usage Instructions
-
+0. You will need a twitter developer account and generate a bearer token for it and place in `BEARER = 'insert bearer token here'`. This is used to authorise all calls to Twitter API and the code will not run without it. Refer [Twitter Developer Portal](developer.twitter.com) for instructions on obtaining a developer account and generating a bearer token
+  
 1. Add topics to be scraped. Topics to be scraped should be put in as a `list` of strings in `line 133` of `scraper.py`. Ensure all topics to be scraped are to have the same label. For scraping hastags, use url encoding for `#`.
 
 2. change `is_cont` in `line 134` to **1** if the topic is controversial, **0** otherwise. <br>
@@ -47,7 +48,7 @@ Note: For information about the dataframe, refer **Data Description**
    1. ``` is:verified ``` _line 39_ - Tag to consider only verified accounts ( usually a preferable choice as those tweets are rich with replies ) . 
    2. ``` -is:retweet ``` _line 39_ - Tag to not consider retweets ( redundant information ) .
    3. ``` -is:reply ``` _line 39_ - Tag to not consider the replies as the root tweet . 
-  4. The user also needs to change the date and time in the section of ``` endtime ``` in _line 139_ to the current date and time in UTC . The format for date is **yyyy-mm-dd** and for time is 24 hrs format .  For example : 
+  4. The user also needs to change the date and time in the section of ``` endtime ``` in _line 139_ to the current date and time in UTC This is the latest tweet that will be scraped i.e. tweets posted after this timestamp will not be retrieved. This is to ensure that enough repl. The format for date is **yyyy-mm-dd** and for time is 24 hrs format .  For example : 
    ``` endtime='2021-04-16T21:00:00Z ``` is an example of time stamp 16th April 2021 , 2100 hrs UTC .  
 ### Data description
 
