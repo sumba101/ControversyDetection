@@ -7,7 +7,8 @@ import json
 import pandas as pd
 import pickle
 import time
-BEARER = 'BEARER_TOK' # Bearer token obtained from twitter developer account used to authorise requests. Redacted as the repo might have to be made public, ask me personally if you need to scrape.
+import string
+BEARER = 'AAAAAAAAAAAAAAAAAAAAALo6NAEAAAAAP%2BhqPpvJq2FY5S2%2Bs28OwLyh7CE%3Dr1K8imd2QZvtIKFRICXmHUQsC1WcRBkDiVXExVJFjNZYpJBx8L' # Bearer token obtained from twitter developer account used to authorise requests. Currently using token associated with our account. Will be revoked after evaluation to prevent misuse of account (since the code is public)
 
 def create_headers(bearer_token):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
@@ -101,20 +102,20 @@ def get_row(response, topic, cont):
 
 # %%
 def get_topic_data(topic, is_cont, num, endtime):
-    print(topic)
+    print(f'scraping root tweets for topic {topic}')
 
     fil_data = []
 
-    url = create_topic_url(topic, 50, endtime=endtime)
-    print(url)
+    url = create_topic_url(topic, 100, endtime=endtime)
+    # print(url)
     response = connect_to_endpoint(url, headers)
     tdata = get_row(response, topic, cont=is_cont)
     until_id = tdata[-1][1]
     fil_data.extend(tdata)
-    print(len(fil_data))
+    # print(len(fil_data))
 
     iter = 1
-    while len(fil_data) < num and iter < 10:
+    while len(fil_data) < num and iter < 50:
         iter += 1
         url = create_topic_url(topic, 100, until_id=until_id)
         response = connect_to_endpoint(url, headers)
@@ -125,32 +126,34 @@ def get_topic_data(topic, is_cont, num, endtime):
         tdata = get_row(response, topic, is_cont)
         until_id = tdata[-1][1]
         fil_data.extend(tdata)
-        print(len(fil_data))
+        # print(len(fil_data))
     return fil_data
 
-
 # %%
-topics = ["",""]
+topics = ['Trump', 'news']
+is_cont = 1
 # topics is a list of strings. it can be  a hashtag (like #BengalElection) or it can be  just a string about an event (like 'Bengal Election' or 'Dr. Seuss' or 'Trump')
 # if topic is a #tag, use "%23" instead of '#' i.e. '%23BengalElections' and not '#BengalElection'
 data = []
 for topic in topics:
-    topic_data = get_topic_data(topic, is_cont=0, num=50, endtime='2021-03-15T00:00:00Z') # send is_cont = 1 if topic is controversial, num = min number of tweets to scrape for topic
+    topic_data = get_topic_data(topic, is_cont=is_cont, num=1000, endtime='2021-04-16T21:00:00Z') # send is_cont = 1 if topic is controversial, num = min number of tweets to scrape for topic
     data.extend(topic_data)
     topic_df = pd.DataFrame(data, columns=['time', 'id', 'user_id', 'parent_id', 'root_id', 'reply_count', 'rt_count', 'like_count', 'text', 'topic', 'is_cont'])
     
-    temp = topic.replace(' ', '_')
-    temp = temp.replace('%23', '')
-    fpkl = f'topicwise/{temp}.pkl'
-    fcsv = f'topicwise/{temp}.csv'
+    # temp = topic.replace(' ', '_')
+    # temp = temp.replace('%23', '')
+    # fpkl = f'topicwise/{temp}.pkl'
+    # fcsv = f'topicwise/{temp}.csv'
 
-    topic_df.to_pickle(fpkl)
-    topic_df.to_csv(fcsv, sep=',', header=True, index=False)
+    # topic_df.to_pickle(fpkl)
+    # topic_df.to_csv(fcsv, sep=',', header=True, index=False)
 
 df = pd.DataFrame(data, columns=['time', 'id', 'user_id', 'parent_id', 'root_id', 'reply_count', 'rt_count', 'like_count', 'text', 'topic', 'is_cont'])
-
-df.to_pickle('root.pkl')
-df.to_csv('root.csv', sep=',', header=True, index=False)
+#print()
+#print(len(df))
+#print()
+# df.to_pickle('root.pkl')
+# df.to_csv('root.csv', sep=',', header=True, index=False)
 
 
 # %%
@@ -162,12 +165,14 @@ def create_reply_url(tid, uid):
 
 
 # %%
-parent_tweets_df = df[df['reply_count'] >= 20] # filter out tweets with less than 20 replies
+parent_tweets_df = df[df['reply_count'] >= 10] # filter out tweets with less than 20 replies
 parent_tweets = [tuple(r) for r in parent_tweets_df[['id', 'user_id', 'topic', 'is_cont']].to_numpy()]
-print(len(parent_tweets))
+print(f"total root tweets after filtering for 10 replies: {len(parent_tweets)}")
+print('beginning to scape replies, this may take a while...')
 replies = []
 # sample = temp[0:10]
 counter = 0
+
 for tweet in parent_tweets:
     counter += 1
     url = create_reply_url(tid=tweet[0], uid=tweet[1])
@@ -176,15 +181,21 @@ for tweet in parent_tweets:
     # print(f'obtained {len(tweets)} replies')
     replies.extend(tweets)
     if counter % 50 == 0:
-        print(f'scraped for {counter} tweets, saving checkpoint')
+        print(f'scraped replies for {counter} tweets, saving checkpoint')
         temp_df = pd.DataFrame(replies, columns=['time', 'id', 'user_id', 'parent_id', 'root_id', 'reply_count', 'rt_count', 'like_count', 'text', 'topic', 'is_cont'])
-        print(f'current length: {len(temp_df)} replies')
+        # print(f'current length: {len(temp_df)} replies')
         temp_df.to_pickle('replies_checkpoint.pkl')
-print(len(replies))
+print(f"total number of tweets including replies: {len(replies) + len(parent_tweets)}")
 replies_df = pd.DataFrame(replies, columns=['time', 'id', 'user_id', 'parent_id', 'root_id', 'reply_count', 'rt_count', 'like_count', 'text', 'topic', 'is_cont'])
 replies_df = replies_df.append(parent_tweets_df)
-replies_df.to_pickle('root_n_replies.pkl')
-replies_df.to_csv('root_n_replies.csv', sep=',', header=True, index=False)
+if len(topics) > 1:
+    topic = "_".join(topics)
+else:
+    topic = topic[0]
+temp = topic.replace(' ', '_')
+temp = temp.replace('%23', '')
+replies_df.to_pickle(f'topicwise/{temp}_root_n_replies.pkl')
+replies_df.to_csv(f'topicwise/{temp}_root_n_replies.csv', sep=',', header=True, index=False)
 
 
 # %%
