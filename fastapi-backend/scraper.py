@@ -82,23 +82,23 @@ def fetch_score(text, comments):
     # print('request sent')
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
-    res = requests.post("https://14045541c589.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
-    # print(res.json())
+    res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
     return res.json()['contro']
 
 # main driver code
 def driverFunction(url):
 # url : Url of the twitter page
-# THE OBJECT RETURED BY THIS MUST BE DICTIONARY OF TWEET TEXT TO CONTROVERSIALITY BOOL(True/False)
-# Example: 	response = {"#WestBengalPolls | \"She [Mamata] alleges that polling agent was ousted from one booth. But said nothing when her people pelted stones on media and injured one. Her political ground is slipping away. What she did is illegal\": @SuvenduWB, BJP candidate from Nandigram (reports ANI)":" True"}
 
 	# url= "https://twitter.com/" + url
 	# output = processTweet(url)
 	# output = dict(sorted(output.items(), key=lambda item: item[1]))
 	
 	string = url.split('/')
+	flag = False
+
 	if len(string) == 1:
 		roots, replies = processProfile(url)
+		flag=True
 	else:
 		roots, replies = processStatus(string[-1])
 	
@@ -108,14 +108,30 @@ def driverFunction(url):
 		# print(root)
 		text = root['text']
 		comments = []
-		reply = replies[replies['conversation_id'] == root['conversation_id']]
-		for j, tweet in reply.sample(10).iterrows():
+		con_id = root['conversation_id']
+		# print(con_id)
+		reply = replies[replies['conversation_id'] == con_id]
+		try:
+			sample_reply = reply.sample(10)
+		except ValueError:
+			sample_reply = reply 
+		# print(sample_reply)
+		for j, tweet in sample_reply.iterrows():
 			comments.append(tweet['text'])
 		results[text] = bool(fetch_score(text, comments))
 		
 	# Please check receiver.py to see sample returned values
+	percentage = None
+	if flag:
+		percentage = 0
+		for i in results.values():
+			print(i)
+			if i:
+				percentage+=1
+		percentage = percentage / len(results)
+		percentage*=100
 
-	return results
+	return results,percentage
 
 def processStatus(tid):
 
@@ -175,7 +191,7 @@ def processProfile(name):
 	return rootTweets, replies
 
 # if __name__ == '__main__':
-# 	url = 'BarackObama/status/1379177193453019142'
-# 	results = driverFunction(url)
+# 	url = 'AmitShah'
+# 	results, percentage = driverFunction(url)
 # 	for text in results.keys():
 # 		print(text, results[text])
