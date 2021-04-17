@@ -82,7 +82,7 @@ def fetch_score(text, comments):
     # print('request sent')
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
-    res = requests.post("https://14045541c589.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
+    res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
     # print(res.json())
     return res.json()['contro']
 
@@ -175,7 +175,7 @@ def processProfile(name):
 	return rootTweets, replies
 
 # if __name__ == '__main__':
-# 	url = 'BarackObama/status/1379177193453019142'
+# 	url = 'BarackObama'
 # 	results = driverFunction(url)
 # 	for text in results.keys():
 # 		print(text, results[text])
