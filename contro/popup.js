@@ -34,7 +34,7 @@ function executeDetection(){
                     percent = JSON.parse(res)["percentage"]
                     if(percent!=null){
                     var per = document.getElementById("percentage")
-                    per.innerHTML="Controversy :-"+ percent + "%"
+                    per.innerHTML="Controversy :  "+ percent + "%"
                     }
 
                     var table = document.getElementById("results")

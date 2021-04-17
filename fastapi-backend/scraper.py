@@ -83,7 +83,6 @@ def fetch_score(text, comments):
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
     res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
-    print(res, res.json())
     return res.json()['contro']
 
 # main driver code
@@ -130,8 +129,7 @@ def driverFunction(url):
 			if i:
 				percentage+=1
 		percentage = percentage / len(results)
-	print(results)
-	print(percentage)
+		percentage*=100
 
 	return results,percentage
 
