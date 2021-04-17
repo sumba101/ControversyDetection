@@ -173,7 +173,7 @@ def processProfile(name):
 	return rootTweets, replies
 
 # if __name__ == '__main__':
-# 	url = 'BarackObama/status/1379177193453019142'
+# 	url = 'BarackObama'
 # 	results = driverFunction(url)
 # 	for text in results.keys():
 # 		print(text, results[text])
