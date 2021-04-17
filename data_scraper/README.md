@@ -47,7 +47,8 @@ Note: For information about the dataframe, refer **Data Description**
    1. ``` is:verified ``` _line 39_ - Tag to consider only verified accounts ( usually a preferable choice as those tweets are rich with replies ) . 
    2. ``` -is:retweet ``` _line 39_ - Tag to not consider retweets ( redundant information ) .
    3. ``` -is:reply ``` _line 39_ - Tag to not consider the replies as the root tweet . 
-  4. The user also needs to change the date and time in the section of ``` endtime ``` in _line 139_ to the current date and time in UTC . The format for date is **yyyy-mm-dd** and for time is 24 hrs format .  For example : ``` endtime='2021-04-16T21:00:00Z ``` is an example of time stamp 16th April 2021 , 2100 hrs UTC .  
+  4. The user also needs to change the date and time in the section of ``` endtime ``` in _line 139_ to the current date and time in UTC . The format for date is **yyyy-mm-dd** and for time is 24 hrs format .  For example : 
+   ``` endtime='2021-04-16T21:00:00Z ``` is an example of time stamp 16th April 2021 , 2100 hrs UTC .  
 ### Data description
 
 The dataset is a single Pandas dataframe containing 11 columns:
