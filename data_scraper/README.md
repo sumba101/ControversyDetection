@@ -29,7 +29,7 @@ The pickle file contains the root tweets and their replies loaded into a pandas 
 Note: For information about the dataframe, refer **Data Description**
 
 ### Usage Instructions
-0. You will need a twitter developer account and generate a bearer token for it and place in `BEARER = 'insert bearer token here'`. This is used to authorise all calls to Twitter API and the code will not run without it. Refer [Twitter Developer Portal](developer.twitter.com) for instructions on obtaining a developer account and generating a bearer token
+0. You will need a twitter developer account and generate a bearer token for it and place in `BEARER = 'insert bearer token here'`. This is used to authorise all calls to Twitter API and the code will not run without it. Refer [Twitter Developer Portal](https://developer.twitter.com) for instructions on obtaining a developer account and generating a bearer token
   
 1. Add topics to be scraped. Topics to be scraped should be put in as a `list` of strings in `line 133` of `scraper.py`. Ensure all topics to be scraped are to have the same label. For scraping hastags, use url encoding for `#`.
 
