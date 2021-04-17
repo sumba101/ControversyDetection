@@ -83,7 +83,7 @@ def fetch_score(text, comments):
     headers = CaseInsensitiveDict()
     headers["Content-Type"] = "application/json"
     res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
-    print(res.json())
+    print(res, res.json())
     return res.json()['contro']
 
 # main driver code
@@ -109,8 +109,15 @@ def driverFunction(url):
 		# print(root)
 		text = root['text']
 		comments = []
-		reply = replies[replies['conversation_id'] == root['conversation_id']]
-		for j, tweet in reply.sample(10).iterrows():
+		con_id = root['conversation_id']
+		# print(con_id)
+		reply = replies[replies['conversation_id'] == con_id]
+		try:
+			sample_reply = reply.sample(10)
+		except ValueError:
+			sample_reply = reply 
+		# print(sample_reply)
+		for j, tweet in sample_reply.iterrows():
 			comments.append(tweet['text'])
 		results[text] = bool(fetch_score(text, comments))
 		
@@ -186,7 +193,7 @@ def processProfile(name):
 	return rootTweets, replies
 
 # if __name__ == '__main__':
-# 	url = 'BarackObama'
-# 	results = driverFunction(url)
+# 	url = 'AmitShah'
+# 	results, percentage = driverFunction(url)
 # 	for text in results.keys():
 # 		print(text, results[text])
