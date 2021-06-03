@@ -5,7 +5,7 @@ import json
 import pandas as pd
 import pickle
 import time
-BEARER = 'AAAAAAAAAAAAAAAAAAAAALo6NAEAAAAAP%2BhqPpvJq2FY5S2%2Bs28OwLyh7CE%3Dr1K8imd2QZvtIKFRICXmHUQsC1WcRBkDiVXExVJFjNZYpJBx8L'
+BEARER = 'AAAAAAAAAAAAAAAAAAAAALo6NAEAAAAAOer7ZyJ%2B3LbB7c8SAYwOlIfVpEA%3DEMiUupV2moOawRA8TZyysds34YCR2Kp6GpH2r4pbhnJ72A76Vl'
 
 headers = {"Authorization": f'Bearer {BEARER}'}
 
@@ -80,9 +80,9 @@ def fetch_score(text, comments):
         'comments' : comments
     }
     # print('request sent')
-    headers = CaseInsensitiveDict()
+    headers = CaseInsensitiveDict() 
     headers["Content-Type"] = "application/json"
-    res = requests.post("https://34d7e88b877b.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
+    res = requests.post("https://5f1407b71e13.ngrok.io/predict_status", headers=headers, data=json.dumps(text))
     return res.json()['contro']
 
 # main driver code
