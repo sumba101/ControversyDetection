@@ -107,7 +107,7 @@ for i in new.keys():
 # In[11]:
 
 
-api_key = 'AIzaSyBLnXd0ElYhQ9WzUaN-9sI4fPavky3md3o'
+api_key = 'xxxx'
 url = ('https://commentanalyzer.googleapis.com/v1alpha1/comments:analyze' +    
     '?key=' + api_key)
 lg = ['en']

@@ -8,7 +8,7 @@ import pandas as pd
 import pickle
 import time
 import string
-BEARER = 'AAAAAAAAAAAAAAAAAAAAALo6NAEAAAAAP%2BhqPpvJq2FY5S2%2Bs28OwLyh7CE%3Dr1K8imd2QZvtIKFRICXmHUQsC1WcRBkDiVXExVJFjNZYpJBx8L' # Bearer token obtained from twitter developer account used to authorise requests. Currently using token associated with our account. Will be revoked after evaluation to prevent misuse of account (since the code is public)
+BEARER = 'ReplaceThisWithBearerToken' # Bearer Token obtained from Twitter Developer account. Used for authorising API calls. Refer README.md for additional info.
 
 def create_headers(bearer_token):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
@@ -20,17 +20,6 @@ headers = create_headers(BEARER)
 # %%
 def create_tweet_url(tid):
     tweet_fields = "tweet.fields=lang,author_id,conversation_id,created_at,public_metrics,referenced_tweets"
-    # Tweet fields are adjustable.
-    # Options include:
-    # attachments, author_id, context_annotations,
-    # conversation_id, created_at, entities, geo, id,
-    # in_reply_to_user_id, lang, non_public_metrics, organic_metrics,
-    # possibly_sensitive, promoted_metrics, public_metrics, referenced_tweets,
-    # source, text, and withheld
-    # You can adjust ids to include a single Tweets.
-    # Or you can add to up to 100 comma-separated IDs
-    # this is straight from twitter API v2 demo code, only there to see if you want to modify what info you want
-    # just delete before putting the final version
     url = f'https://api.twitter.com/2/tweets?ids={tid}&{tweet_fields}'
     return url
 

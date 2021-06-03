@@ -1,7 +1,8 @@
-# ControveryDetection
+# ControversyDetection
 controversy detection project for Social Computing course in IIIT Hyderabad. 2021.
 
 ## Data scraping
+The script used for scraping is present in the folder `dataset_scraper`. Detailed instructions on running the script and its outpout can be found in `dataset_scraper/README.md`
 
 ## Preprocessing the scraped data
 After downloading the dataset in the data folder, we need to preprocess the data. The data can be preprocessed by using the code in the preprocessor directory. Change the file_name in the notebook to point to your dataset. Run that code to preprocess the data. It will automatically save the file in a pickle file as a dataframe. Change the variable `output_name` to point to the name of the pickle file.

@@ -173,7 +173,7 @@ params = {
     'dropout' : 0.1,
     'pers' : True
 }
-model = LMModelClassifier.load_from_checkpoint('/scratch/tr/'+params['model']+'-epoch=3.ckpt')
+model = LMModelClassifier.load_from_checkpoint('/scratch/tr/'+params['model']+'-epoch=2.ckpt')
 tokenizer = AutoTokenizer.from_pretrained(params['model'])
 
 @app.route('/predict_status', methods=['POST'])
