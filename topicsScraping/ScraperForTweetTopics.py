@@ -10,7 +10,7 @@ import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from tqdm import tqdm
-from webdriver_manager.chrome import ChromeDriverManager
+
 
 global DIR
 
@@ -26,7 +26,7 @@ def scrape_links(link):
     # scraping
     chromeOptions = Options()
     chromeOptions.add_argument('--headless')
-    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chromeOptions)
+    driver = webdriver.Chrome(options=chromeOptions)
 
     driver.get(link)
 
@@ -52,9 +52,8 @@ def scrape_links(link):
         'links': [v for v in data.values()]
     }
     df = pd.DataFrame( temp, columns=['topics', 'links'] )
-    df.to_csv( "dataset.csv" )
 
-    df.to_csv(DIR+'/'+num, index=False)
+    df.to_csv(DIR+'/'+num+".csv", index=False)
     pbar.update(1)
     driver.quit()
 
@@ -98,8 +97,3 @@ if __name__ == '__main__':
     asyncio.get_event_loop().run_until_complete(
         get_restaurant_links(executor, search_links_df)
     )
-
-
-    # d= [ link for _, link in search_links_df.iterrows()]
-    #
-    # print(d)
