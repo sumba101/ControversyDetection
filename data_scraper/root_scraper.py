@@ -8,7 +8,7 @@ import string
 
 ENDPOINT = 'https://api.twitter.com/2/tweets/search/all?query='
 
-BEARER = 'AAAAAAAAAAAAAAAAAAAAAO7JQAEAAAAA6OvMcGmlbpPg0vY1KaqzuyhfLPc%3D25ob0qGUmWC4JVqkGzbp1y2MyttFXBKEo2J4ZKsra0QIXO9vXZ'
+BEARER = 'READACTED' # insert bearer token from Twitter Developer account (requires academic research access, change endpoint to "...tweets/search/recent?query=" to use standard access Twitter API)
 
 TWEETS_PER_ITER = 500
 
